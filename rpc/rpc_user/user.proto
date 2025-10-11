@@ -1,0 +1,182 @@
+syntax = "proto3";
+
+// proto 包名
+package user;
+
+option go_package = "./";
+
+
+// 通用响应
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+
+message CreateUserReq {
+    string nick_name = 1;
+    string user_name = 2;
+    string password = 3;
+    string email = 4; //根据邮箱验证码创建账号
+    string code = 5;  //验证码
+    string avatar_name = 6;
+    bytes avatar = 7; //头像
+}
+message CreateUserResp {
+    BaseResp base = 1;
+}
+
+
+message UserInfo {
+    int64 id = 1;
+    string nick_name = 2;
+    string user_name = 3;
+    double balance = 4;
+}
+message GetUserByIdReq {
+    int64 id = 1;
+}
+message GetUserByIdResp {
+    BaseResp base = 1;
+    UserInfo data =2;
+}
+
+
+message Address{
+    string receiver_name = 1;
+    string receiver_phone = 2;
+    string province = 3;
+    string city = 4;
+    string district = 5;
+    string detail_address = 6;
+    int32 is_default = 7;//是否默认地址
+    int64 addr_id = 8;
+}
+message GetAddrsByIdReq {
+    int64 id = 1;
+}
+message GetAddrsByIdResp {
+    BaseResp base = 1;
+    repeated Address data = 2;
+}
+
+message CreateAddrsByIdReq {
+    int64 id = 1;
+    Address addr = 2;
+}
+message CreateAddrsByIdResp {
+    BaseResp base = 1;
+}
+
+message ChangeUserPwdReq{
+    int64 id = 1;
+    string new_pwd = 2;
+    string old_pwd = 3;
+}
+message ChangeUserPwdResp{
+    BaseResp base = 1;
+}
+
+message ChangeUserNicknameReq{
+    int64 id = 1;
+    string new_name = 2;
+}
+message ChangeUserNicknameResp{
+    BaseResp base = 1;
+}
+
+message DeleteAddrByAddrIdReq{
+    int64 id = 1;
+}
+message DeleteAddrByAddrIdResp{
+    BaseResp base = 1;
+}
+
+message IncreaseBalanceReq{
+    int64 id = 1;
+    double incr = 2;
+}
+message IncreaseBalanceResq{
+    BaseResp base = 1;
+}
+
+message GetEmailCodeReq{
+    string email = 1;
+}
+message GetEmailCodeResp{
+    BaseResp base = 1;
+}
+
+
+message FrozenBalanceReq{
+    int64 userId = 1;
+    int64 skProductId = 2;
+    int64 orderNo = 3;
+}
+message FrozenBalanceResq{
+    BaseResp base = 1;
+    string totalAmount = 2;
+    int64 MerchantId =3;
+}
+
+
+message ReduceFrozenBalanceReq{
+     int64 orderNo = 1;
+     int64 userId = 2;
+}
+
+message ReduceFrozenBalanceResp{
+     BaseResp base = 1;
+}
+
+message GetFrozenInfoReq{
+    int64 orderNo = 1;
+}
+message GetFrozenInfoResp{
+    BaseResp base = 1;
+}
+
+
+
+message LoginReq{
+    string userName = 1;
+    string pwd = 2;
+}
+message LoginResp{
+    BaseResp base = 1;
+    string token = 2;
+    string avatar = 3;
+    string nickName = 4;
+}
+message JwtAuthReq{
+    string token = 1; 
+}
+message JwtAuthResp{
+    BaseResp base = 1;
+    int64 userId=2;
+}
+
+// 定义 user 服务
+service User {
+  rpc CreateUser(CreateUserReq) returns (CreateUserResp);
+  rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp);
+  rpc ChangeUserPwd(ChangeUserPwdReq) returns (ChangeUserPwdResp);
+  rpc ChangeUserNickname(ChangeUserNicknameReq) returns (ChangeUserNicknameResp);
+
+  rpc CreateUserAddrsById(CreateAddrsByIdReq) returns (CreateAddrsByIdResp);
+  rpc GetUserAddrsById(GetAddrsByIdReq) returns (GetAddrsByIdResp);
+  rpc DeleteAddrByAddrId(DeleteAddrByAddrIdReq)returns (DeleteAddrByAddrIdResp);
+
+  rpc IncreaseBalance(IncreaseBalanceReq) returns (IncreaseBalanceResq);
+  rpc GetEmailCode(GetEmailCodeReq) returns (GetEmailCodeResp);
+
+  rpc FrozenBalance(FrozenBalanceReq) returns (FrozenBalanceResq);
+  rpc ReduceFrozenBalance(ReduceFrozenBalanceReq) returns (ReduceFrozenBalanceResp);
+  rpc ComReduceFrozenBalance(ReduceFrozenBalanceReq) returns (ReduceFrozenBalanceResp);
+
+  rpc GetFrozenInfo(GetFrozenInfoReq) returns (GetFrozenInfoResp);
+
+  rpc Login(LoginReq) returns(LoginResp);
+  rpc JwtAuth(JwtAuthReq) returns(JwtAuthResp);
+}
+

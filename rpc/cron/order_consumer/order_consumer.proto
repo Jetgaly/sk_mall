@@ -1,0 +1,28 @@
+syntax = "proto3";
+package order_consumer;
+
+option go_package = "./";
+
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+
+message Pong{
+    string msg = 1;
+}
+message Empty{}
+
+message SetOrderHasPaidReq{
+    int64 orderNo = 1;
+}
+message SetOrderHasPaidResp{
+    BaseResp base = 1;
+}
+service OrderConsumer{
+    rpc Ping(Empty) returns (Pong);
+    rpc SetOrderHasPaid(SetOrderHasPaidReq) returns(SetOrderHasPaidResp);
+    rpc ComSetOrderHasPaid(SetOrderHasPaidReq) returns(SetOrderHasPaidResp);
+}
+

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "./";
+import "google/protobuf/timestamp.proto";
+// 通用响应
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message CreateProductReq{
+    uint64 merchant_id = 1;
+    string name = 2;
+    string desc = 3;
+    string cover_image_suffix = 4;
+    bytes cover_image = 5;
+    string price = 6;
+    uint64 stock = 7;
+    int32 status = 8;
+}
+message CreateProductResp{
+   BaseResp base = 1;
+}
+
+message CreateSKEventReq{
+    uint64 merchant_id = 1;
+    string name = 2;
+    google.protobuf.Timestamp start_time = 3;
+    google.protobuf.Timestamp end_time = 4;
+    uint32 status = 5;
+}
+message CreateSKEventResp{
+    BaseResp base = 1; 
+}
+message CreateSKProductReq{
+    uint64 event_id = 1;
+    uint64 product_id = 2;
+    string seckill_price = 3;
+    uint64 seckill_stock = 4;
+}
+message CreateSKProductResp{
+     BaseResp base = 1; 
+}
+
+message SKProductInfo{
+    int64 Id = 1;
+    int64 EvId = 2;
+    int64 ProductId = 3;
+    string SeckillPrice = 4;
+    int64 SeckillStock = 5;
+    int64 MerchantId = 6;
+}
+message GetSKProductReq{
+    int64 SKProductID = 1;
+}
+message GetSKProductResp{
+    BaseResp base = 1;
+    SKProductInfo info = 2;
+}
+
+
+
+message GetSKEvStatusByPIdReq{
+    int64 PId = 1;
+}
+message GetSKEvStatusByPIdResp{
+    BaseResp base = 1;
+    int32 status = 2; //活动状态：1=未开始，2=进行中，3=已结束
+}
+
+message GetSKEvStatusReq{
+    int64 EvId = 1;
+}
+message GetSKEvStatusResp{
+    BaseResp base = 1;
+    int32 status = 2; //活动状态：1=未开始，2=进行中，3=已结束
+}
+
+message ReduceSkProductStockReq{
+    int64 SKProductId = 1;
+}
+message ReduceSkProductStockResp{
+    BaseResp base = 1;
+}
+service Product{
+    rpc CreateProduct(CreateProductReq) returns(CreateProductResp);
+    rpc CreateSKEvent(CreateSKEventReq) returns(CreateSKEventResp);
+    rpc CreateSKProduct(CreateSKProductReq) returns(CreateSKProductResp);
+   // rpc GetProduct(GetProductReq) returns(GetProductResp);
+    rpc GetSKProduct(GetSKProductReq) returns(GetSKProductResp);
+    rpc GetSKEvStatusByPId(GetSKEvStatusByPIdReq) returns(GetSKEvStatusByPIdResp);
+    rpc GetSKEvStatus(GetSKEvStatusReq) returns(GetSKEvStatusResp);
+
+    rpc ReduceSkProductStock(ReduceSkProductStockReq)returns(ReduceSkProductStockResp);
+    rpc ComReduceSkProductStock(ReduceSkProductStockReq)returns(ReduceSkProductStockResp);
+}

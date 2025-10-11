@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package merchant;
+
+option go_package = "./";
+
+// 通用响应
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message MerchantInfo{
+    string name = 1;
+    bytes logo = 2;
+    string logoSuffix = 3;
+    string description = 4;
+    int32 type = 5;
+    int32 status = 6; 
+}
+message AuthInfo{
+    string legalName = 1;
+    string idCard = 2;
+    bytes licenseImg=3;
+    string licenseSuffix = 4;
+}
+message AccInfo{
+    uint64 merchantId = 1;
+    int32 accType = 2;
+    string accNo = 3;
+    string accName = 4;
+    string bankName = 5;
+}
+
+message CreateMerchantReq{
+    uint64 userId = 1;
+    MerchantInfo MInfo = 2;
+    AuthInfo AInfo = 3;
+    AccInfo AcInfo = 4;
+}
+message CreateMerchantResp{
+    BaseResp base = 1;
+}
+
+message GMerchantInfo{
+    uint64 merchantId = 1;
+    string name = 2;
+    string logo = 3;
+    string desc = 4;
+    int32 type = 5;
+    int32 status = 6;
+}
+message GetMerchantByMIdReq{
+    uint64 merchantId = 1;
+}
+message GetMerchantByMIdResp{
+    BaseResp base = 1;
+    GMerchantInfo Info = 2;
+}
+
+message GetMerchantIdReq{
+    uint64 userId = 1;
+}
+message GetMerchantIdResp{
+    BaseResp base = 1;
+    uint64 mId = 2;
+}
+message IncreaseBalanceReq{
+    uint64 orderNo = 1;
+    string totalAmount = 2; //订单总金额
+    int64 merchantId = 3;
+}
+message IncreaseBalanceResp{
+    BaseResp base = 1;
+}
+service Merchant {
+    rpc CreateMerchant(CreateMerchantReq) returns(CreateMerchantResp);
+    rpc GetMerchantByMId(GetMerchantByMIdReq) returns(GetMerchantByMIdResp);
+    rpc GetMerchantId(GetMerchantIdReq) returns(GetMerchantIdResp);
+
+    rpc IncreaseBalance(IncreaseBalanceReq) returns(IncreaseBalanceResp);
+    rpc ComIncreaseBalance(IncreaseBalanceReq) returns(IncreaseBalanceResp);
+}

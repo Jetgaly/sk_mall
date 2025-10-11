@@ -1,0 +1,54 @@
+Name: seckill.rpc
+ListenOn: 0.0.0.0:8084
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: seckill.rpc
+
+Timeout: 5000
+
+DB:
+  DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_user_db?charset=utf8mb4&parseTime=true&loc=Local
+  MaxOpen: 100
+  MaxIdle: 20
+  MaxLifetime: 3600 # 1小时
+
+Log:
+  Level: error
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: Qwe@123456
+  Tls: false
+  Key: rpc_seckill # redis标识
+
+DLockRedis:
+  Hosts:
+    - 127.0.0.1:6379
+    - 127.0.0.1:6389
+    - 127.0.0.1:6399
+  Passes:
+    - Qwe@123456
+    - 123456
+    - 123456
+
+RMQ:
+  Dsn: amqp://admin:admin@localhost:5672/
+
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+
+ProductRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: product.rpc
+
+Middlewares:
+  StatConf:
+    IgnoreContentMethods:
+      - "seckill.seckill/CreateOrder"

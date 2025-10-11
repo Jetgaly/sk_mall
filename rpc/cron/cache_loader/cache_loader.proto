@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package cache_loader;
+
+option go_package = "./";
+
+message Pong{
+    string msg = 1;
+}
+message Empty{}
+service CacheLoader{
+    rpc Ping(Empty) returns (Pong);
+}

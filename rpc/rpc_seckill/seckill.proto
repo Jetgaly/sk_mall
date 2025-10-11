@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package seckill;
+
+option go_package = "./";
+// 通用响应
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message CreateOrderReq{
+    uint64 user_id=1;
+    uint64 sk_product_id=2;
+    uint64 addr_id = 3;
+}
+
+message CreateOrderResp{
+    BaseResp base = 1;
+}
+service seckill{
+    rpc CreateOrder(CreateOrderReq) returns(CreateOrderResp);
+}

@@ -1,0 +1,56 @@
+syntax="proto3";
+
+package order;
+
+option go_package = "./";
+
+import "google/protobuf/timestamp.proto";
+
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+message OrderInfo{
+    int64 orderNo = 1;
+    int64 addrId=2;
+    int64 skProduckId=3;
+    int64 quantity = 4;
+    string unitPrice =5;
+    string totalAmount=6;
+    int32 status=7;//订单状态：0-待支付，1-已支付，2-已发货，3-已完成，4-已取消，5-超时关闭
+    google.protobuf.Timestamp created_at = 8;
+    google.protobuf.Timestamp expire_at = 9;
+}
+message OrderListInfo{
+    int64 orderNo = 1;
+    int64 skProduckId=2;
+    int64 quantity = 3;
+    string unitPrice =4;
+    string totalAmount=5;
+    int32 status=6;//订单状态：0-待支付，1-已支付，2-已发货，3-已完成，4-已取消，5-超时关闭
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp expire_at = 8;
+}
+
+message GetOrderReq{
+    int64 orderId=1;
+    int64 userId=2;
+}
+
+message GetOrderResp{
+    BaseResp base = 1;
+    OrderInfo info = 2;
+}
+message GetOrderListReq{
+    int64 userId = 1;
+    int64 page = 2;
+    int64 limit = 3;
+}
+message GetOrderListResp{
+    BaseResp base = 1;
+    repeated OrderListInfo List = 2;
+}
+service Order{
+    rpc GetOrder(GetOrderReq) returns(GetOrderResp);
+    rpc GetOrderList(GetOrderListReq) returns(GetOrderListResp);
+}

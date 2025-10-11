@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package payment;
+
+option go_package = "./";
+// 通用响应
+message BaseResp {
+    int32 code = 1;
+    string msg = 2;
+}
+
+message PayOrderReq{
+    uint64 user_id=1;
+    int64  order_no=2;
+}
+
+message PayOrderResp{
+    BaseResp base = 1;
+}
+
+message SetPayLogReq{
+    string gid = 1;
+    int64  order_no=2;
+}
+
+message SetPayLogResp{
+    BaseResp base = 1;
+}
+service Payment{
+    rpc PayOrder(PayOrderReq) returns(PayOrderResp);
+    rpc SetPayLog(SetPayLogReq) returns(SetPayLogResp);
+    rpc ComSetPayLog(SetPayLogReq) returns(SetPayLogResp);
+}

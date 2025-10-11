@@ -1,0 +1,42 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8080
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+DB:
+  DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_user_db?charset=utf8mb4&parseTime=true&loc=Local
+  MaxOpen: 100
+  MaxIdle: 20
+  MaxLifetime: 3600 # 1小时
+
+Avatar:
+  UploadPath: /home/jjet/projects/GoProjects/sk_mall/static/avatar
+
+Log:
+  Level: info
+
+Middlewares:
+  StatConf:
+    IgnoreContentMethods:
+      - "/user.User/CreateUser"
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: Qwe@123456
+  Tls: false
+  Key: rpc_user # redis标识
+
+Email:
+  Host: smtp.qq.com
+  Port: 587
+  User: jjjjjet@qq.com
+  Password: pxoepndugnxcdcea
+
+ProductRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: product.rpc
+  

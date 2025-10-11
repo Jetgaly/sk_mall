@@ -1,0 +1,66 @@
+Name: payment.rpc
+ListenOn: 0.0.0.0:8085
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: payment.rpc
+
+Log:
+  Level: info
+
+DB:
+  DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_payment_db?charset=utf8mb4&parseTime=true&loc=Local
+  MaxOpen: 100
+  MaxIdle: 20
+  MaxLifetime: 3600 # 1小时
+
+Redis:
+  Host: 127.0.0.1:6379
+  Type: node
+  Pass: Qwe@123456
+  Tls: false
+  Key: rpc_payment # redis标识
+
+Mode: dev
+
+DLockRedis:
+  Hosts:
+    - 127.0.0.1:6379
+    - 127.0.0.1:6389
+    - 127.0.0.1:6399
+  Passes:
+    - Qwe@123456
+    - 123456
+    - 123456
+
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 172.27.31.113:2379
+    Key: user.rpc
+
+ProductRpcConf:
+  Etcd:
+    Hosts:
+      - 172.27.31.113:2379
+    Key: product.rpc
+
+OrderRpcConf:
+  Etcd:
+    Hosts:
+      - 172.27.31.113:2379
+    Key: orderconsumer.rpc
+
+MerchantRpcConf:
+  Etcd:
+    Hosts:
+      - 172.27.31.113:2379
+    Key: merchant.rpc
+
+PaymentRpcConf:
+  Etcd:
+    Hosts:
+      - 172.27.31.113:2379
+    Key: payment.rpc
+
+DTM: etcd://localhost:2379/dtmservice

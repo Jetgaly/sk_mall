@@ -1,0 +1,26 @@
+Name: merchant.rpc
+ListenOn: 0.0.0.0:8081
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: merchant.rpc
+
+DB:
+  DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_merchant_db?charset=utf8mb4&parseTime=true&loc=Local
+  MaxOpen: 100
+  MaxIdle: 20
+  MaxLifetime: 3600 # 1小时
+
+Log:
+  Level: info
+
+Logo:
+  UploadPath: /home/jjet/projects/GoProjects/sk_mall/static/logo
+
+License:
+  UploadPath: /home/jjet/projects/GoProjects/sk_mall/static/license
+
+Middlewares:
+  StatConf:
+    IgnoreContentMethods:
+      - "/merchant.Merchant/CreateMerchant"
