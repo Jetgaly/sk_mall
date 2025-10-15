@@ -2,7 +2,7 @@
 
 ## 简单架构图
 
-![]()
+![](https://raw.githubusercontent.com/Jetgaly/sk_mall/refs/heads/master/static/imgs/structure.png)
 
 ## desc
 
