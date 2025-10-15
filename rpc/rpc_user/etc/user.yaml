@@ -47,7 +47,7 @@ Redis:
 Email:
   Host: smtp.qq.com
   Port: 587
-  User: jjjjjet@qq.com
+  User: xxxxx@qq.com
   Password: pxxxxxdugnxcxxea
 
 ProductRpcConf:
