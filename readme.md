@@ -72,6 +72,11 @@ jjet@jet:~/projects/GoProjects/sk_mall$ tree -L 1
 - redis存储已经购买过的用户集合，解决**一人一单**问题
 - 在order consumer订单落库时通过写入rmq实现的**延迟队列**来控制订单的**支付过期**状态，实现库存的归还
 
+### 用户注册登录
+
+- 用户注册和登录需要通过邮箱获取验证码，从而实现账号的数量限制
+- 使用jwt存储用户的状态信息
+
 ### 测试
 
 在 **wsl2 8c16g** 的环境下**单机部署自压测试**(jmeter):`4500+ qps`
@@ -86,4 +91,3 @@ jjet@jet:~/projects/GoProjects/sk_mall$ tree -L 1
 6. aggr_order, 
 7. payment ,
 8. gateway
-
