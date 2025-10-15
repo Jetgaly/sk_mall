@@ -1,0 +1,100 @@
+global:
+  scrape_interval: 15s # 每15秒收集一次
+  evaluation_interval: 15s # 每15秒评估一次规则
+  scrape_timeout: 10s # 收集超时时间
+
+scrape_configs:
+  # 监控目标1
+  - job_name: "api-gateway-9888"
+    static_configs:
+      - targets: ["172.27.31.113:9888"] # 使用特殊域名访问宿主机
+        labels:
+          service: "api.gateway"
+          env: "dev"
+          instance: "api.9888"
+
+  - job_name: "rpc-aggrorder-9089"
+    static_configs:
+      - targets: ["172.27.31.113:9089"]
+        labels:
+          service: "rpc.aggrorder"
+          env: "dev"
+          instance: "rpc.9089"
+
+  - job_name: "rpc-cacheloader-9087"
+    static_configs:
+      - targets: ["172.27.31.113:9087"]
+        labels:
+          service: "rpc.cacheloader"
+          env: "dev"
+          instance: "rpc.9087"
+
+  - job_name: "rpc-orderconsumer-9086"
+    static_configs:
+      - targets: ["172.27.31.113:9086"]
+        labels:
+          service: "rpc.orderconsumer"
+          env: "dev"
+          instance: "rpc.9086"
+
+  - job_name: "rpc-merchant-9081"
+    static_configs:
+      - targets: ["172.27.31.113:9081"]
+        labels:
+          service: "rpc.merchant"
+          env: "dev"
+          instance: "rpc.9081"
+
+  - job_name: "rpc-order-9088"
+    static_configs:
+      - targets: ["172.27.31.113:9088"]
+        labels:
+          service: "rpc.order"
+          env: "dev"
+          instance: "rpc.9088"
+
+  - job_name: "rpc-payment-9085"
+    static_configs:
+      - targets: ["172.27.31.113:9085"]
+        labels:
+          service: "payment.order"
+          env: "dev"
+          instance: "rpc.9085"      
+
+  - job_name: "rpc-product-9082"
+    static_configs:
+      - targets: ["172.27.31.113:9082"]
+        labels:
+          service: "rpc.product"
+          env: "dev"
+          instance: "rpc.9082"     
+
+  - job_name: "rpc-seckill-9084"
+    static_configs:
+      - targets: ["172.27.31.113:9084"]
+        labels:
+          service: "rpc.seckill"
+          env: "dev"
+          instance: "rpc.9084"    
+
+  - job_name: "rpc-user-9084"
+    static_configs:
+      - targets: ["172.27.31.113:9080"]
+        labels:
+          service: "rpc.user"
+          env: "dev"
+          instance: "rpc.9080" 
+
+  # # 监控Prometheus自身
+  # - job_name: "prometheus"
+  #   static_configs:
+  #     - targets: ["localhost:9090"]
+  #       labels:
+  #         service: "prometheus-monitor"
+
+  # # 可选：如果需要监控宿主机节点
+  # - job_name: "node-exporter"
+  #   static_configs:
+  #     - targets: ["host.docker.internal:9100"]
+  #       labels:
+  #         service: "host-metrics"

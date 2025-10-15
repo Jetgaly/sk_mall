@@ -27,9 +27,12 @@ type (
 	GetSKEvStatusResp        = __.GetSKEvStatusResp
 	GetSKProductReq          = __.GetSKProductReq
 	GetSKProductResp         = __.GetSKProductResp
+	GetSkproductListReq      = __.GetSkproductListReq
+	GetSkproductListResp     = __.GetSkproductListResp
 	ReduceSkProductStockReq  = __.ReduceSkProductStockReq
 	ReduceSkProductStockResp = __.ReduceSkProductStockResp
 	SKProductInfo            = __.SKProductInfo
+	SkproductElem            = __.SkproductElem
 
 	Product interface {
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
@@ -41,6 +44,7 @@ type (
 		GetSKEvStatus(ctx context.Context, in *GetSKEvStatusReq, opts ...grpc.CallOption) (*GetSKEvStatusResp, error)
 		ReduceSkProductStock(ctx context.Context, in *ReduceSkProductStockReq, opts ...grpc.CallOption) (*ReduceSkProductStockResp, error)
 		ComReduceSkProductStock(ctx context.Context, in *ReduceSkProductStockReq, opts ...grpc.CallOption) (*ReduceSkProductStockResp, error)
+		GetSkproductList(ctx context.Context, in *GetSkproductListReq, opts ...grpc.CallOption) (*GetSkproductListResp, error)
 	}
 
 	defaultProduct struct {
@@ -93,4 +97,9 @@ func (m *defaultProduct) ReduceSkProductStock(ctx context.Context, in *ReduceSkP
 func (m *defaultProduct) ComReduceSkProductStock(ctx context.Context, in *ReduceSkProductStockReq, opts ...grpc.CallOption) (*ReduceSkProductStockResp, error) {
 	client := __.NewProductClient(m.cli.Conn())
 	return client.ComReduceSkProductStock(ctx, in, opts...)
+}
+
+func (m *defaultProduct) GetSkproductList(ctx context.Context, in *GetSkproductListReq, opts ...grpc.CallOption) (*GetSkproductListResp, error) {
+	client := __.NewProductClient(m.cli.Conn())
+	return client.GetSkproductList(ctx, in, opts...)
 }

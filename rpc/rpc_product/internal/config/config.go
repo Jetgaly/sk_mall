@@ -17,4 +17,7 @@ type Config struct {
 		Hosts  []string
 		Passes []string
 	}
+	ES struct {
+		Addr  []string
+	}
 }

@@ -39,6 +39,7 @@ message CreateSKProductReq{
     uint64 product_id = 2;
     string seckill_price = 3;
     uint64 seckill_stock = 4;
+    int64 MerchantId = 5;
 }
 message CreateSKProductResp{
      BaseResp base = 1; 
@@ -84,6 +85,29 @@ message ReduceSkProductStockReq{
 message ReduceSkProductStockResp{
     BaseResp base = 1;
 }
+
+
+message SkproductElem{
+    int64 EvId = 1;
+    int64 ProId = 2;
+    int64 Stock = 3;
+    string STime = 4;
+    string ETime = 5;
+    string Name = 6;
+    string Desc = 7;
+    string Price = 8;
+    string Cover = 9;
+    int64 Id =10;
+}
+message GetSkproductListReq{
+    string key = 1;
+    int64 limit = 2;
+    int64 page = 3;
+}
+message GetSkproductListResp{
+     BaseResp base = 1;
+     repeated SkproductElem list = 2;
+}
 service Product{
     rpc CreateProduct(CreateProductReq) returns(CreateProductResp);
     rpc CreateSKEvent(CreateSKEventReq) returns(CreateSKEventResp);
@@ -95,4 +119,6 @@ service Product{
 
     rpc ReduceSkProductStock(ReduceSkProductStockReq)returns(ReduceSkProductStockResp);
     rpc ComReduceSkProductStock(ReduceSkProductStockReq)returns(ReduceSkProductStockResp);
+
+    rpc GetSkproductList(GetSkproductListReq)returns(GetSkproductListResp);
 }

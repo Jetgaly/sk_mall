@@ -10,6 +10,22 @@ DB:
   MaxIdle: 20
   MaxLifetime: 3600 # 1小时
 
+Telemetry:
+  Name: user.rpc
+  Endpoint: http://127.0.0.1:9411/api/v2/spans
+  Sampler: 1.0
+  Batcher: zipkin
+
+DevServer:
+  Enabled: true
+  Host: 0.0.0.0
+  Port: 9080
+  MetricsPath: /metrics
+  HealthPath: /health
+  EnableMetrics: true
+  EnablePprof: false
+  HealthResponse: ok
+
 Avatar:
   UploadPath: /home/jjet/projects/GoProjects/sk_mall/static/avatar
 
@@ -39,4 +55,3 @@ ProductRpcConf:
     Hosts:
       - 127.0.0.1:2379
     Key: product.rpc
-  

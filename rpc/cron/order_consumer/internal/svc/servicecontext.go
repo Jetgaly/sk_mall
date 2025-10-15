@@ -129,7 +129,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	args := amqp.Table{
 		"x-dead-letter-exchange":    "sk.order.timeoutexc", // 死信转发到主交换机
 		"x-dead-letter-routing-key": "sk.order.timeout",    // 死信路由键
-		"x-message-ttl":             10000,                 // 队列级别TTL: 35.5分钟 2130000ms
+		"x-message-ttl":             2130000,                 // 队列级别TTL: 35.5分钟 2130000ms
 	}
 	_, e7 := channel.QueueDeclare(
 		"sk.order.delay",

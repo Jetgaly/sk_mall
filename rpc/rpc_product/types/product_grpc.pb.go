@@ -27,6 +27,7 @@ const (
 	Product_GetSKEvStatus_FullMethodName           = "/product.Product/GetSKEvStatus"
 	Product_ReduceSkProductStock_FullMethodName    = "/product.Product/ReduceSkProductStock"
 	Product_ComReduceSkProductStock_FullMethodName = "/product.Product/ComReduceSkProductStock"
+	Product_GetSkproductList_FullMethodName        = "/product.Product/GetSkproductList"
 )
 
 // ProductClient is the client API for Product service.
@@ -42,6 +43,7 @@ type ProductClient interface {
 	GetSKEvStatus(ctx context.Context, in *GetSKEvStatusReq, opts ...grpc.CallOption) (*GetSKEvStatusResp, error)
 	ReduceSkProductStock(ctx context.Context, in *ReduceSkProductStockReq, opts ...grpc.CallOption) (*ReduceSkProductStockResp, error)
 	ComReduceSkProductStock(ctx context.Context, in *ReduceSkProductStockReq, opts ...grpc.CallOption) (*ReduceSkProductStockResp, error)
+	GetSkproductList(ctx context.Context, in *GetSkproductListReq, opts ...grpc.CallOption) (*GetSkproductListResp, error)
 }
 
 type productClient struct {
@@ -132,6 +134,16 @@ func (c *productClient) ComReduceSkProductStock(ctx context.Context, in *ReduceS
 	return out, nil
 }
 
+func (c *productClient) GetSkproductList(ctx context.Context, in *GetSkproductListReq, opts ...grpc.CallOption) (*GetSkproductListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSkproductListResp)
+	err := c.cc.Invoke(ctx, Product_GetSkproductList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServer is the server API for Product service.
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
@@ -145,6 +157,7 @@ type ProductServer interface {
 	GetSKEvStatus(context.Context, *GetSKEvStatusReq) (*GetSKEvStatusResp, error)
 	ReduceSkProductStock(context.Context, *ReduceSkProductStockReq) (*ReduceSkProductStockResp, error)
 	ComReduceSkProductStock(context.Context, *ReduceSkProductStockReq) (*ReduceSkProductStockResp, error)
+	GetSkproductList(context.Context, *GetSkproductListReq) (*GetSkproductListResp, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -178,6 +191,9 @@ func (UnimplementedProductServer) ReduceSkProductStock(context.Context, *ReduceS
 }
 func (UnimplementedProductServer) ComReduceSkProductStock(context.Context, *ReduceSkProductStockReq) (*ReduceSkProductStockResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ComReduceSkProductStock not implemented")
+}
+func (UnimplementedProductServer) GetSkproductList(context.Context, *GetSkproductListReq) (*GetSkproductListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSkproductList not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 func (UnimplementedProductServer) testEmbeddedByValue()                 {}
@@ -344,6 +360,24 @@ func _Product_ComReduceSkProductStock_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_GetSkproductList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSkproductListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).GetSkproductList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_GetSkproductList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).GetSkproductList(ctx, req.(*GetSkproductListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Product_ServiceDesc is the grpc.ServiceDesc for Product service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -382,6 +416,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ComReduceSkProductStock",
 			Handler:    _Product_ComReduceSkProductStock_Handler,
+		},
+		{
+			MethodName: "GetSkproductList",
+			Handler:    _Product_GetSkproductList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

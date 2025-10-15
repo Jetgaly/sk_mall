@@ -7,6 +7,22 @@ Etcd:
 
 Timeout: 5000
 
+Telemetry:
+  Name: seckill.rpc
+  Endpoint: http://127.0.0.1:9411/api/v2/spans
+  Sampler: 1.0
+  Batcher: zipkin
+
+DevServer:
+  Enabled: true
+  Host: 0.0.0.0
+  Port: 9084
+  MetricsPath: /metrics
+  HealthPath: /health
+  EnableMetrics: true
+  EnablePprof: false
+  HealthResponse: ok
+
 DB:
   DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_user_db?charset=utf8mb4&parseTime=true&loc=Local
   MaxOpen: 100
@@ -47,6 +63,7 @@ ProductRpcConf:
     Hosts:
       - 127.0.0.1:2379
     Key: product.rpc
+  Timeout: 5000
 
 Middlewares:
   StatConf:

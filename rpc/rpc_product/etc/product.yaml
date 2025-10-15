@@ -4,6 +4,23 @@ Etcd:
   Hosts:
     - 127.0.0.1:2379
   Key: product.rpc
+Timeout: 5000
+
+Telemetry:
+  Name: product.rpc
+  Endpoint: http://127.0.0.1:9411/api/v2/spans
+  Sampler: 1.0
+  Batcher: zipkin
+
+DevServer:
+  Enabled: true
+  Host: 0.0.0.0
+  Port: 9082
+  MetricsPath: /metrics
+  HealthPath: /health
+  EnableMetrics: true
+  EnablePprof: false
+  HealthResponse: ok
 
 DB:
   DataSource: jet:Qwe@123456@tcp(127.0.0.1:3306)/sk_product_db?charset=utf8mb4&parseTime=true&loc=Local
@@ -12,7 +29,7 @@ DB:
   MaxLifetime: 3600 # 1小时
 
 Log:
-  Level: info
+  Level: error
 
 Cover:
   UploadPath: /home/jjet/projects/GoProjects/sk_mall/static/product_cover
@@ -29,14 +46,16 @@ Redis:
   Tls: false
   Key: rpc_product # redis标识
 
-
 DLockRedis:
-  Hosts: 
+  Hosts:
     - 127.0.0.1:6379
     - 127.0.0.1:6389
     - 127.0.0.1:6399
-  Passes: 
+  Passes:
     - Qwe@123456
     - 123456
     - 123456
 
+ES:
+  Addr:
+    - http://127.0.0.1:9200

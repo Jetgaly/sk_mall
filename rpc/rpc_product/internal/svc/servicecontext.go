@@ -9,6 +9,7 @@ import (
 	"sk_mall/utils"
 	"time"
 
+	"github.com/elastic/go-elasticsearch/v7"
 	gr "github.com/redis/go-redis/v9"
 	"github.com/zeromicro/go-zero/core/logc"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -21,6 +22,7 @@ type ServiceContext struct {
 	DBConn    sqlx.SqlConn
 	Rds       *redis.Redis
 	RLCreater *utils.RedLockCreater
+	ESCli     *elasticsearch.Client
 }
 
 func CreateCoverUploadDir(path string) {
@@ -51,12 +53,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	if c.DB.MaxLifetime > 0 {
 		db.SetConnMaxLifetime(time.Duration(c.DB.MaxLifetime) * time.Second)
 	}
-	
+
 	CreateCoverUploadDir(c.Cover.UploadPath)
 
 	// 包装成 sqlx.SqlConn
 	conn := sqlx.NewSqlConnFromDB(db)
-	
 
 	//redis:
 	rds := redis.MustNewRedis(c.Redis.RedisConf)
@@ -86,10 +87,21 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		panic("[RedLock]初始化失败")
 	}
 
+	//Es
+	cfg := elasticsearch.Config{
+		Addresses: c.ES.Addr,
+	}
+
+	es, e4 := elasticsearch.NewClient(cfg)
+	if e4 != nil {
+		logc.Errorf(context.Background(), "[ES]初始化失败,%s", e4.Error())
+		panic("[ES]初始化失败")
+	}
 	return &ServiceContext{
 		Config:    c,
 		DBConn:    conn,
 		Rds:       rds,
 		RLCreater: rlc,
+		ESCli:     es,
 	}
 }

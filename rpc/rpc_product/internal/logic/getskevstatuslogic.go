@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"math/rand/v2"
+
 	"errors"
 	"fmt"
 	"strconv"
@@ -86,7 +88,7 @@ func (l *GetSKEvStatusLogic) GetSKEvStatus(in *__.GetSKEvStatusReq) (*__.GetSKEv
 				logc.Errorf(l.ctx, "[DBConn] query err:%s", e2.Error())
 				return &__.GetSKEvStatusResp{}, e2
 			}
-			expire := 1200 //20min
+			expire := 1200 + rand.IntN(10) //20min +- 10min
 			_, e3 := l.svcCtx.Rds.EvalCtx(l.ctx, luaStr, []string{evKey}, evInfo.Id, evInfo.Status, evInfo.STime.Unix(), evInfo.ETime.Unix(), expire)
 			if e3 != nil {
 				logc.Errorf(l.ctx, "[Redis] eval lua err:%s", e3.Error())

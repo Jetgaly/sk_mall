@@ -345,6 +345,7 @@ type CreateSKProductReq struct {
 	ProductId     uint64                 `protobuf:"varint,2,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
 	SeckillPrice  string                 `protobuf:"bytes,3,opt,name=seckill_price,json=seckillPrice,proto3" json:"seckill_price,omitempty"`
 	SeckillStock  uint64                 `protobuf:"varint,4,opt,name=seckill_stock,json=seckillStock,proto3" json:"seckill_stock,omitempty"`
+	MerchantId    int64                  `protobuf:"varint,5,opt,name=MerchantId,proto3" json:"MerchantId,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -403,6 +404,13 @@ func (x *CreateSKProductReq) GetSeckillPrice() string {
 func (x *CreateSKProductReq) GetSeckillStock() uint64 {
 	if x != nil {
 		return x.SeckillStock
+	}
+	return 0
+}
+
+func (x *CreateSKProductReq) GetMerchantId() int64 {
+	if x != nil {
+		return x.MerchantId
 	}
 	return 0
 }
@@ -911,6 +919,234 @@ func (x *ReduceSkProductStockResp) GetBase() *BaseResp {
 	return nil
 }
 
+type SkproductElem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	EvId          int64                  `protobuf:"varint,1,opt,name=EvId,proto3" json:"EvId,omitempty"`
+	ProId         int64                  `protobuf:"varint,2,opt,name=ProId,proto3" json:"ProId,omitempty"`
+	Stock         int64                  `protobuf:"varint,3,opt,name=Stock,proto3" json:"Stock,omitempty"`
+	STime         string                 `protobuf:"bytes,4,opt,name=STime,proto3" json:"STime,omitempty"`
+	ETime         string                 `protobuf:"bytes,5,opt,name=ETime,proto3" json:"ETime,omitempty"`
+	Name          string                 `protobuf:"bytes,6,opt,name=Name,proto3" json:"Name,omitempty"`
+	Desc          string                 `protobuf:"bytes,7,opt,name=Desc,proto3" json:"Desc,omitempty"`
+	Price         string                 `protobuf:"bytes,8,opt,name=Price,proto3" json:"Price,omitempty"`
+	Cover         string                 `protobuf:"bytes,9,opt,name=Cover,proto3" json:"Cover,omitempty"`
+	Id            int64                  `protobuf:"varint,10,opt,name=Id,proto3" json:"Id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SkproductElem) Reset() {
+	*x = SkproductElem{}
+	mi := &file_product_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SkproductElem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SkproductElem) ProtoMessage() {}
+
+func (x *SkproductElem) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SkproductElem.ProtoReflect.Descriptor instead.
+func (*SkproductElem) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *SkproductElem) GetEvId() int64 {
+	if x != nil {
+		return x.EvId
+	}
+	return 0
+}
+
+func (x *SkproductElem) GetProId() int64 {
+	if x != nil {
+		return x.ProId
+	}
+	return 0
+}
+
+func (x *SkproductElem) GetStock() int64 {
+	if x != nil {
+		return x.Stock
+	}
+	return 0
+}
+
+func (x *SkproductElem) GetSTime() string {
+	if x != nil {
+		return x.STime
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetETime() string {
+	if x != nil {
+		return x.ETime
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetDesc() string {
+	if x != nil {
+		return x.Desc
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetPrice() string {
+	if x != nil {
+		return x.Price
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetCover() string {
+	if x != nil {
+		return x.Cover
+	}
+	return ""
+}
+
+func (x *SkproductElem) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetSkproductListReq struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	Limit         int64                  `protobuf:"varint,2,opt,name=limit,proto3" json:"limit,omitempty"`
+	Page          int64                  `protobuf:"varint,3,opt,name=page,proto3" json:"page,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSkproductListReq) Reset() {
+	*x = GetSkproductListReq{}
+	mi := &file_product_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSkproductListReq) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSkproductListReq) ProtoMessage() {}
+
+func (x *GetSkproductListReq) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSkproductListReq.ProtoReflect.Descriptor instead.
+func (*GetSkproductListReq) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *GetSkproductListReq) GetKey() string {
+	if x != nil {
+		return x.Key
+	}
+	return ""
+}
+
+func (x *GetSkproductListReq) GetLimit() int64 {
+	if x != nil {
+		return x.Limit
+	}
+	return 0
+}
+
+func (x *GetSkproductListReq) GetPage() int64 {
+	if x != nil {
+		return x.Page
+	}
+	return 0
+}
+
+type GetSkproductListResp struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Base          *BaseResp              `protobuf:"bytes,1,opt,name=base,proto3" json:"base,omitempty"`
+	List          []*SkproductElem       `protobuf:"bytes,2,rep,name=list,proto3" json:"list,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSkproductListResp) Reset() {
+	*x = GetSkproductListResp{}
+	mi := &file_product_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSkproductListResp) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSkproductListResp) ProtoMessage() {}
+
+func (x *GetSkproductListResp) ProtoReflect() protoreflect.Message {
+	mi := &file_product_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSkproductListResp.ProtoReflect.Descriptor instead.
+func (*GetSkproductListResp) Descriptor() ([]byte, []int) {
+	return file_product_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *GetSkproductListResp) GetBase() *BaseResp {
+	if x != nil {
+		return x.Base
+	}
+	return nil
+}
+
+func (x *GetSkproductListResp) GetList() []*SkproductElem {
+	if x != nil {
+		return x.List
+	}
+	return nil
+}
+
 var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
@@ -941,13 +1177,16 @@ const file_product_proto_rawDesc = "" +
 	"\bend_time\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\aendTime\x12\x16\n" +
 	"\x06status\x18\x05 \x01(\rR\x06status\":\n" +
 	"\x11CreateSKEventResp\x12%\n" +
-	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base\"\x98\x01\n" +
+	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base\"\xb8\x01\n" +
 	"\x12CreateSKProductReq\x12\x19\n" +
 	"\bevent_id\x18\x01 \x01(\x04R\aeventId\x12\x1d\n" +
 	"\n" +
 	"product_id\x18\x02 \x01(\x04R\tproductId\x12#\n" +
 	"\rseckill_price\x18\x03 \x01(\tR\fseckillPrice\x12#\n" +
-	"\rseckill_stock\x18\x04 \x01(\x04R\fseckillStock\"<\n" +
+	"\rseckill_stock\x18\x04 \x01(\x04R\fseckillStock\x12\x1e\n" +
+	"\n" +
+	"MerchantId\x18\x05 \x01(\x03R\n" +
+	"MerchantId\"<\n" +
 	"\x13CreateSKProductResp\x12%\n" +
 	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base\"\xb9\x01\n" +
 	"\rSKProductInfo\x12\x0e\n" +
@@ -977,7 +1216,26 @@ const file_product_proto_rawDesc = "" +
 	"\x17ReduceSkProductStockReq\x12 \n" +
 	"\vSKProductId\x18\x01 \x01(\x03R\vSKProductId\"A\n" +
 	"\x18ReduceSkProductStockResp\x12%\n" +
-	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base2\x88\x05\n" +
+	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base\"\xdf\x01\n" +
+	"\rSkproductElem\x12\x12\n" +
+	"\x04EvId\x18\x01 \x01(\x03R\x04EvId\x12\x14\n" +
+	"\x05ProId\x18\x02 \x01(\x03R\x05ProId\x12\x14\n" +
+	"\x05Stock\x18\x03 \x01(\x03R\x05Stock\x12\x14\n" +
+	"\x05STime\x18\x04 \x01(\tR\x05STime\x12\x14\n" +
+	"\x05ETime\x18\x05 \x01(\tR\x05ETime\x12\x12\n" +
+	"\x04Name\x18\x06 \x01(\tR\x04Name\x12\x12\n" +
+	"\x04Desc\x18\a \x01(\tR\x04Desc\x12\x14\n" +
+	"\x05Price\x18\b \x01(\tR\x05Price\x12\x14\n" +
+	"\x05Cover\x18\t \x01(\tR\x05Cover\x12\x0e\n" +
+	"\x02Id\x18\n" +
+	" \x01(\x03R\x02Id\"Q\n" +
+	"\x13GetSkproductListReq\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\x03R\x05limit\x12\x12\n" +
+	"\x04page\x18\x03 \x01(\x03R\x04page\"i\n" +
+	"\x14GetSkproductListResp\x12%\n" +
+	"\x04base\x18\x01 \x01(\v2\x11.product.BaseRespR\x04base\x12*\n" +
+	"\x04list\x18\x02 \x03(\v2\x16.product.SkproductElemR\x04list2\xd9\x05\n" +
 	"\aProduct\x12F\n" +
 	"\rCreateProduct\x12\x19.product.CreateProductReq\x1a\x1a.product.CreateProductResp\x12F\n" +
 	"\rCreateSKEvent\x12\x19.product.CreateSKEventReq\x1a\x1a.product.CreateSKEventResp\x12L\n" +
@@ -986,7 +1244,8 @@ const file_product_proto_rawDesc = "" +
 	"\x12GetSKEvStatusByPId\x12\x1e.product.GetSKEvStatusByPIdReq\x1a\x1f.product.GetSKEvStatusByPIdResp\x12F\n" +
 	"\rGetSKEvStatus\x12\x19.product.GetSKEvStatusReq\x1a\x1a.product.GetSKEvStatusResp\x12[\n" +
 	"\x14ReduceSkProductStock\x12 .product.ReduceSkProductStockReq\x1a!.product.ReduceSkProductStockResp\x12^\n" +
-	"\x17ComReduceSkProductStock\x12 .product.ReduceSkProductStockReq\x1a!.product.ReduceSkProductStockRespB\x04Z\x02./b\x06proto3"
+	"\x17ComReduceSkProductStock\x12 .product.ReduceSkProductStockReq\x1a!.product.ReduceSkProductStockResp\x12O\n" +
+	"\x10GetSkproductList\x12\x1c.product.GetSkproductListReq\x1a\x1d.product.GetSkproductListRespB\x04Z\x02./b\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once
@@ -1000,7 +1259,7 @@ func file_product_proto_rawDescGZIP() []byte {
 	return file_product_proto_rawDescData
 }
 
-var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_product_proto_goTypes = []any{
 	(*BaseResp)(nil),                 // 0: product.BaseResp
 	(*CreateProductReq)(nil),         // 1: product.CreateProductReq
@@ -1018,12 +1277,15 @@ var file_product_proto_goTypes = []any{
 	(*GetSKEvStatusResp)(nil),        // 13: product.GetSKEvStatusResp
 	(*ReduceSkProductStockReq)(nil),  // 14: product.ReduceSkProductStockReq
 	(*ReduceSkProductStockResp)(nil), // 15: product.ReduceSkProductStockResp
-	(*timestamppb.Timestamp)(nil),    // 16: google.protobuf.Timestamp
+	(*SkproductElem)(nil),            // 16: product.SkproductElem
+	(*GetSkproductListReq)(nil),      // 17: product.GetSkproductListReq
+	(*GetSkproductListResp)(nil),     // 18: product.GetSkproductListResp
+	(*timestamppb.Timestamp)(nil),    // 19: google.protobuf.Timestamp
 }
 var file_product_proto_depIdxs = []int32{
 	0,  // 0: product.CreateProductResp.base:type_name -> product.BaseResp
-	16, // 1: product.CreateSKEventReq.start_time:type_name -> google.protobuf.Timestamp
-	16, // 2: product.CreateSKEventReq.end_time:type_name -> google.protobuf.Timestamp
+	19, // 1: product.CreateSKEventReq.start_time:type_name -> google.protobuf.Timestamp
+	19, // 2: product.CreateSKEventReq.end_time:type_name -> google.protobuf.Timestamp
 	0,  // 3: product.CreateSKEventResp.base:type_name -> product.BaseResp
 	0,  // 4: product.CreateSKProductResp.base:type_name -> product.BaseResp
 	0,  // 5: product.GetSKProductResp.base:type_name -> product.BaseResp
@@ -1031,27 +1293,31 @@ var file_product_proto_depIdxs = []int32{
 	0,  // 7: product.GetSKEvStatusByPIdResp.base:type_name -> product.BaseResp
 	0,  // 8: product.GetSKEvStatusResp.base:type_name -> product.BaseResp
 	0,  // 9: product.ReduceSkProductStockResp.base:type_name -> product.BaseResp
-	1,  // 10: product.Product.CreateProduct:input_type -> product.CreateProductReq
-	3,  // 11: product.Product.CreateSKEvent:input_type -> product.CreateSKEventReq
-	5,  // 12: product.Product.CreateSKProduct:input_type -> product.CreateSKProductReq
-	8,  // 13: product.Product.GetSKProduct:input_type -> product.GetSKProductReq
-	10, // 14: product.Product.GetSKEvStatusByPId:input_type -> product.GetSKEvStatusByPIdReq
-	12, // 15: product.Product.GetSKEvStatus:input_type -> product.GetSKEvStatusReq
-	14, // 16: product.Product.ReduceSkProductStock:input_type -> product.ReduceSkProductStockReq
-	14, // 17: product.Product.ComReduceSkProductStock:input_type -> product.ReduceSkProductStockReq
-	2,  // 18: product.Product.CreateProduct:output_type -> product.CreateProductResp
-	4,  // 19: product.Product.CreateSKEvent:output_type -> product.CreateSKEventResp
-	6,  // 20: product.Product.CreateSKProduct:output_type -> product.CreateSKProductResp
-	9,  // 21: product.Product.GetSKProduct:output_type -> product.GetSKProductResp
-	11, // 22: product.Product.GetSKEvStatusByPId:output_type -> product.GetSKEvStatusByPIdResp
-	13, // 23: product.Product.GetSKEvStatus:output_type -> product.GetSKEvStatusResp
-	15, // 24: product.Product.ReduceSkProductStock:output_type -> product.ReduceSkProductStockResp
-	15, // 25: product.Product.ComReduceSkProductStock:output_type -> product.ReduceSkProductStockResp
-	18, // [18:26] is the sub-list for method output_type
-	10, // [10:18] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	0,  // 10: product.GetSkproductListResp.base:type_name -> product.BaseResp
+	16, // 11: product.GetSkproductListResp.list:type_name -> product.SkproductElem
+	1,  // 12: product.Product.CreateProduct:input_type -> product.CreateProductReq
+	3,  // 13: product.Product.CreateSKEvent:input_type -> product.CreateSKEventReq
+	5,  // 14: product.Product.CreateSKProduct:input_type -> product.CreateSKProductReq
+	8,  // 15: product.Product.GetSKProduct:input_type -> product.GetSKProductReq
+	10, // 16: product.Product.GetSKEvStatusByPId:input_type -> product.GetSKEvStatusByPIdReq
+	12, // 17: product.Product.GetSKEvStatus:input_type -> product.GetSKEvStatusReq
+	14, // 18: product.Product.ReduceSkProductStock:input_type -> product.ReduceSkProductStockReq
+	14, // 19: product.Product.ComReduceSkProductStock:input_type -> product.ReduceSkProductStockReq
+	17, // 20: product.Product.GetSkproductList:input_type -> product.GetSkproductListReq
+	2,  // 21: product.Product.CreateProduct:output_type -> product.CreateProductResp
+	4,  // 22: product.Product.CreateSKEvent:output_type -> product.CreateSKEventResp
+	6,  // 23: product.Product.CreateSKProduct:output_type -> product.CreateSKProductResp
+	9,  // 24: product.Product.GetSKProduct:output_type -> product.GetSKProductResp
+	11, // 25: product.Product.GetSKEvStatusByPId:output_type -> product.GetSKEvStatusByPIdResp
+	13, // 26: product.Product.GetSKEvStatus:output_type -> product.GetSKEvStatusResp
+	15, // 27: product.Product.ReduceSkProductStock:output_type -> product.ReduceSkProductStockResp
+	15, // 28: product.Product.ComReduceSkProductStock:output_type -> product.ReduceSkProductStockResp
+	18, // 29: product.Product.GetSkproductList:output_type -> product.GetSkproductListResp
+	21, // [21:30] is the sub-list for method output_type
+	12, // [12:21] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_product_proto_init() }
@@ -1065,7 +1331,7 @@ func file_product_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_proto_rawDesc), len(file_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

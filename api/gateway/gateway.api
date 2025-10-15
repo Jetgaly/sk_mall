@@ -1,0 +1,362 @@
+syntax = "v1"
+
+type (
+	// 定义登录接口的 json 请求体
+	LoginReq {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	// 定义登录接口的 json 响应体
+	LoginResp {
+		Code     int    `json:"code"`
+		Msg      string `json:"msg"`
+		NickName string `json:"nickname"`
+		Token    string `json:"token"`
+		Avatar   string `json:"avatar"`
+	}
+)
+
+type (
+	RegisterReq {
+		UserInfo string `form:"userinfo"`
+		Avatar   []byte `form:"-"`
+		Suffix   string `form:"-"`
+	}
+	RegisterResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	EmailCodeReq {
+		Email string `json:"email"`
+	}
+	EmailCodeResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+@server (
+	// 代表当前 service 代码块下的路由生成代码时都会被放到 login 目录下
+	group: login
+	// 定义路由前缀
+	prefix: /api
+)
+// 微服务名称为 user，生成的代码目录和配置文件将和 user 值相关
+service gateway {
+	// 定义 http.HandleFunc 转换的 go 文件名称及方法，每个接口都会跟一个 handler
+	@handler login
+	// 定义接口
+	// 请求方法为 post
+	// 路由为 /user/login
+	// 请求体为 LoginReq
+	// 响应体为 LoginResp，响应体必须有 returns 关键字修饰
+	post /login (LoginReq) returns (LoginResp)
+
+	@handler register
+	post /user (RegisterReq) returns (RegisterResp)
+
+	@handler getEmailCode
+	post /code (EmailCodeReq) returns (EmailCodeResp)
+}
+
+/*
+{
+"id": "5",
+"addr": {
+"receiver_name": "ggg",
+"receiver_phone": "1230000000",
+"province": "guangdong",
+"city": "shenzhen",
+"district": "nanshan",
+"detail_address": "szu333",
+"is_default": 1
+}
+}*/
+type (
+	Address {
+		Name     string `json:"receiver_name"`
+		Phone    string `json:"receiver_phone"`
+		Province string `json:"province"`
+		City     string `json:"city"`
+		District string `json:"district"`
+		Detail   string `json:"detail_address"`
+		Default  int32  `json:"is_default"`
+	}
+	CreateAddrReq {
+		UserId string  `json:"-"`
+		Addr   Address `json:"addr"`
+	}
+	CreateAddrResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	DeleteAddrReq {
+		Id string `json:"id"`
+	}
+	DeleteAddrResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	AddressInfo {
+		Id       string `json:"id"`
+		Name     string `json:"receiver_name"`
+		Phone    string `json:"receiver_phone"`
+		Province string `json:"province"`
+		City     string `json:"city"`
+		District string `json:"district"`
+		Detail   string `json:"detail_address"`
+		Default  int32  `json:"is_default"`
+	}
+	GetAddrsReq {
+		id string `json:"-"`
+	}
+	GetAddrsResp {
+		Code int           `json:"code"`
+		Msg  string        `json:"msg"`
+		list []AddressInfo `json:"list"`
+	}
+)
+
+@server (
+	group:      user
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler createAddr
+	post /addr (CreateAddrReq) returns (CreateAddrResp)
+
+	@handler deleteAddr
+	delete /addr (DeleteAddrReq) returns (DeleteAddrResp)
+
+	@handler getAddrs
+	get /addr (GetAddrsReq) returns (GetAddrsResp)
+}
+
+type (
+	CreateMerchantReq {
+		JsonInfo       string `form:"info"`
+		UserId         string `json:"-"`
+		Logo           []byte `json:"-"`
+		LogoSuffix     string `json:"-"`
+		lincenseImg    []byte `json:"-"`
+		lincenseSuffix string `json:"-"`
+	}
+	CreateMerchantResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+@server (
+	group:      merchant
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler createMerchant
+	post /merchant (CreateMerchantReq) returns (CreateMerchantResp)
+}
+
+type (
+	CreateProductReq {
+		JsonInfo    string `form:"info"`
+		CoverImg    []byte
+		CoverSuffix string
+		UserId      string
+	}
+	CreateProductResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	CreateEventReq {
+		UserId    string `json:"-"`
+		StartTime string `json:"s_time"`
+		EndTime   string `json:"e_time"`
+		Name      string `json:"name"`
+	}
+	CreateEventResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	CreateSkProductReq {
+		UserId     string `json:"-"`
+		EvId       string `json:"ev_id"`
+		ProductId  string `json:"pro_id"`
+		Price      string `json:"price"`
+		Stock      string `json:"stock"`
+		MerchantId string `json:"mer_id"`
+	}
+	CreateSkProductResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+type (
+	SkproductElem {
+		EvId  string `json:"ev_id"`
+		ProId string `json:"pro_id"`
+		Stock int64  `json:"stock"`
+		STime string `json:"s_time"`
+		ETime string `json:"e_time"`
+		Name  string `json:"name"`
+		Desc  string `json:"desc"`
+		Price string `json:"price"`
+		Cover string `json:"cover"`
+		Id    string `json:"id"`
+	}
+	GetSkProductListReq {
+		Key   string `form:"key"`
+		Limit int64  `form:"limit"`
+		Page  int64  `form:"page"`
+	}
+	GetSkProductListResp {
+		Code int             `json:"code"`
+		Msg  string          `json:"msg"`
+		List []SkproductElem `json:"list"`
+	}
+)
+
+@server (
+	group:      product
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler createProduct
+	post /product (CreateProductReq) returns (CreateProductResp)
+
+	@handler createEvent
+	post /event (CreateEventReq) returns (CreateEventResp)
+
+	@handler createSkProduct
+	post /skproduct (CreateSkProductReq) returns (CreateSkProductResp)
+
+	@handler getSkProductList
+	get /skproduct (GetSkProductListReq) returns (GetSkProductListResp)
+}
+
+type (
+	OrderAddr {
+		AddrId string `json:"addr_id"`
+	}
+	OrderProduct {
+		SKProductId string `json:"sk_pro_id"`
+	}
+	OrderElem {
+		OrderNo     string       `json:"order_no"`
+		Product     OrderProduct `json:"product"`
+		Quantity    string       `json:"quantity"`
+		UnitPrice   string       `json:"unit_price"`
+		TotalAmount string       `json:"total_amount"`
+		Status      int64        `json:"status"`
+		CreateAt    string       `json:"create_at"`
+		ExpireAt    string       `json:"expire_at"`
+	}
+	GetOrderListReq {
+		UserId string
+		Page   int64 `form:"page"`
+		Limit  int64 `form:"limit"`
+	}
+	GetOrderListResp {
+		Code int         `json:"code"`
+		Msg  string      `json:"msg"`
+		List []OrderElem `json:"list"`
+	}
+)
+
+type (
+	OrderInfo {
+		OrderNo     string       `json:"order_no"`
+		Addr        OrderAddr    `json:"addr"`
+		Product     OrderProduct `json:"product"`
+		Quantity    string       `json:"quantity"`
+		UnitPrice   string       `json:"unit_price"`
+		TotalAmount string       `json:"total_amount"`
+		Status      int64        `json:"status"`
+		CreateAt    string       `json:"create_at"`
+		ExpireAt    string       `json:"expire_at"`
+	}
+	GetOrderInfoReq {
+		UserId  string
+		OrderNo string `path:"no"`
+	}
+	GetOrderInfoResp {
+		Code int       `json:"code"`
+		Msg  string    `json:"msg"`
+		Info OrderInfo `json:"info"`
+	}
+)
+
+@server (
+	group:      order
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler getOrderList
+	get /order (GetOrderListReq) returns (GetOrderListResp)
+
+	@handler getOrderInfo
+	get /order/:no (GetOrderInfoReq) returns (GetOrderInfoResp)
+}
+
+type (
+	CreateSkOrderReq {
+		SKProductId string `json:"sk_pro_id"`
+		UserId      string `json:"-"`
+		AddrId      string `json:"addr_id"`
+	}
+	CreateSkOrderResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+@server (
+	group:      seckill
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler createSkOrder
+	post /seckill (CreateSkOrderReq) returns (CreateSkOrderResp)
+}
+
+type (
+	PayOrderReq {
+		UserId  string `json:"-"`
+		OrderNo string `json:"order_no"`
+	}
+	PayOrderResp {
+		Code int    `json:"code"`
+		Msg  string `json:"msg"`
+	}
+)
+
+@server (
+	group:      payment
+	prefix:     /api
+	middleware: JwtAuthMiddleware
+)
+service gateway {
+	@handler payOrder
+	post /payment (PayOrderReq) returns (PayOrderResp)
+}
+

@@ -5,6 +5,22 @@ Etcd:
     - 127.0.0.1:2379
   Key: payment.rpc
 
+Telemetry:
+  Name: payment.rpc
+  Endpoint: http://127.0.0.1:9411/api/v2/spans
+  Sampler: 1.0
+  Batcher: zipkin
+
+DevServer:
+  Enabled: true
+  Host: 0.0.0.0
+  Port: 9085
+  MetricsPath: /metrics
+  HealthPath: /health
+  EnableMetrics: true
+  EnablePprof: false
+  HealthResponse: ok
+
 Log:
   Level: info
 

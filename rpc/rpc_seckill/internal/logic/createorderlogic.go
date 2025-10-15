@@ -60,6 +60,8 @@ type OrderMessage struct {
 }
 
 func (l *CreateOrderLogic) CreateOrder(in *__.CreateOrderReq) (*__.CreateOrderResp, error) {
+	//orderNo
+	var orderNo int64
 	//获取商品evid
 	gresp1, gerr1 := l.svcCtx.ProductRpc.GetSKProduct(l.ctx, &product.GetSKProductReq{
 		SKProductID: int64(in.SkProductId),
@@ -144,8 +146,7 @@ func (l *CreateOrderLogic) CreateOrder(in *__.CreateOrderReq) (*__.CreateOrderRe
 			}, nil
 		case 3:
 			//购买成功
-			//orderNo
-			var orderNo int64
+
 			var e3 error
 			for {
 				orderNo, e3 = l.svcCtx.Node.Generate()
@@ -233,7 +234,7 @@ func (l *CreateOrderLogic) CreateOrder(in *__.CreateOrderReq) (*__.CreateOrderRe
 	return &__.CreateOrderResp{
 		Base: &__.BaseResp{
 			Code: 1,
-			Msg:  "success",
+			Msg:  fmt.Sprintf("success:%d", orderNo),
 		},
 	}, nil
 }

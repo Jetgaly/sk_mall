@@ -63,3 +63,8 @@ func (s *ProductServer) ComReduceSkProductStock(ctx context.Context, in *__.Redu
 	l := logic.NewComReduceSkProductStockLogic(ctx, s.svcCtx)
 	return l.ComReduceSkProductStock(in)
 }
+
+func (s *ProductServer) GetSkproductList(ctx context.Context, in *__.GetSkproductListReq) (*__.GetSkproductListResp, error) {
+	l := logic.NewGetSkproductListLogic(ctx, s.svcCtx)
+	return l.GetSkproductList(in)
+}
