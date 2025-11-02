@@ -69,6 +69,29 @@ func NewRMQChannelPool(connPool *RMQConnPool, minChan int, overChan int) (*RMQCh
 func (p *RMQChannelPool) Get() (*ChannelWithConfirm, error) {
 	select {
 	case ch := <-p.channels:
+		if ch.Channel.IsClosed() {
+			conn, err := p.pool.Get()
+			if err != nil {
+				return nil, err
+			}
+			var channel *amqp.Channel
+			channel, err = conn.Channel()
+			if err != nil {
+				p.pool.Put(conn)
+				return nil, err
+			}
+			err = channel.Confirm(false)
+			if err != nil {
+				p.pool.Put(conn)
+				return nil, err
+			}
+			confirm := channel.NotifyPublish(make(chan amqp.Confirmation, 1))
+			ch = &ChannelWithConfirm{
+				Channel: channel,
+				Confirm: &confirm,
+			}
+			p.pool.Put(conn)
+		}
 		return ch, nil
 	default:
 		p.mutex.Lock()

@@ -5,7 +5,6 @@ import (
 	"time"
 )
 
-
 type RMQConnPool struct {
 	conns   chan *amqp.Connection
 	url     string
@@ -35,6 +34,13 @@ func (p *RMQConnPool) Get() (*amqp.Connection, error) {
 	select {
 	case conn, ok := <-p.conns:
 		if ok {
+			if conn.IsClosed() {
+				var err error
+				conn, err = amqp.Dial(p.url)
+				if err != nil {
+					return nil, err
+				}
+			}
 			return conn, nil
 		} else {
 			return nil, ErrConnCantTake
