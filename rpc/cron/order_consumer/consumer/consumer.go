@@ -218,6 +218,8 @@ func MsgHandler(SvcCtx *svc.ServiceContext, msg []byte) error {
 			logc.Info(context.Background(), "Message confirmed")
 		} else {
 			logc.Errorf(context.Background(), "[RMQ] send fail,orderNo:%d", orderMsg.OrderNo)
+			channel.Channel.Close()
+			return fmt.Errorf("send fail,orderNo:%d", orderMsg.OrderNo)
 		}
 	case <-time.After(5 * time.Second): //超时时间
 		logc.Errorf(context.Background(), "[RMQ] confirm timeout,orderNo:%d", orderMsg.OrderNo)
