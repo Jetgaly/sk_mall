@@ -79,7 +79,7 @@ func SearchDocuments(ctx context.Context, client *elasticsearch.Client, indexNam
 		body, _ := io.ReadAll(resp.Body)
 		return nil, errors.New(string(body))
 	}
-
+	
 	// 解析响应
 	var response SearchResponse
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
